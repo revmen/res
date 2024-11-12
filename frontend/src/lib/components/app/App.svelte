@@ -21,7 +21,7 @@
 
 	let { experiment = $bindable(), closeExperiment }: Props = $props();
 
-	let selectedObject: {type: string, index: number} | null = $state(null)
+	let selectedObject: models.CandidateGen | models.VoterGen | null = $state(null)
 
 	// Copy the experiment to the clipboard as JSON
 	const jsonToClipboard = async () => {
