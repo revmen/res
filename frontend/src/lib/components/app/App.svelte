@@ -2,16 +2,17 @@
 	import { Button } from '$lib/components/ui/button/index.js';
 	import * as Resizable from '$lib/components/ui/resizable/index.js';
 	import * as Select from '$lib/components/ui/select/index.js';
-	import * as Accordion from '$lib/components/ui/accordion/index.js';
+
 	import { Input } from '$lib/components/ui/input/index.js';
 	import Label from '$lib/components/ui/label/label.svelte';
 	import { toast } from 'svelte-sonner';
 	import SettingsButton from './SettingsButton.svelte';
 	import TextPopover from './TextPopover.svelte';
+	import ExpMenu from './ExpMenu.svelte';
+	import ExpMap from './map/ExpMap.svelte';
 
 	import { models } from '$lib/wailsjs/go/models';
 	import { ClipboardSetText } from '$lib/wailsjs/runtime/runtime';
-	import Textarea from '../ui/textarea/textarea.svelte';
 
 	type Props = {
 		experiment: models.Experiment;
@@ -20,6 +21,19 @@
 
 	let { experiment = $bindable(), closeExperiment }: Props = $props();
 
+	let selectedObject: {type: string, index: number} | null = $state(null)
+
+	// Copy the experiment to the clipboard as JSON
+	const jsonToClipboard = async () => {
+		const result = await ClipboardSetText(JSON.stringify(experiment, null, 2));
+		if (result) {
+			toast.success('JSON copied to clipboard');
+		} else {
+			toast.error('Failed to copy JSON to clipboard');
+		}
+	};
+
+	// Track whether changes have been made to the experiment
 	let changed = false;
 	let cleanCopy = { ...experiment };
 
@@ -38,14 +52,6 @@
 		}
 	};
 
-	const jsonToClipboard = async () => {
-		const result = await ClipboardSetText(JSON.stringify(experiment, null, 2));
-		if (result) {
-			toast.success('JSON copied to clipboard');
-		} else {
-			toast.error('Failed to copy JSON to clipboard');
-		}
-	};
 </script>
 
 <div class="flex flex-row justify-between">
@@ -61,29 +67,14 @@
 
 <Resizable.PaneGroup direction="horizontal" class="border">
 	<Resizable.Pane defaultSize={35}>
-			<div class="px-4">
-			<Accordion.Root type="multiple">
-				<Accordion.Item value="candidates">
-					<Accordion.Trigger>Candidates</Accordion.Trigger>
-					<Accordion.Content>Yes. It adheres to the WAI-ARIA design pattern.</Accordion.Content>
-				</Accordion.Item>
-				<Accordion.Item value="voters">
-					<Accordion.Trigger>Voters</Accordion.Trigger>
-					<Accordion.Content>Yes. It adheres to the WAI-ARIA design pattern.</Accordion.Content>
-				</Accordion.Item>
-				<Accordion.Item value="notes">
-					<Accordion.Trigger>Notes</Accordion.Trigger>
-					<Accordion.Content>
-						<Textarea class="h-60"bind:value={experiment.notes} />
-					</Accordion.Content>
-				</Accordion.Item>
-			</Accordion.Root>
+		<div class="mx-4">
+			<ExpMenu bind:experiment bind:selectedObject/>
 		</div>
-		</Resizable.Pane>
-		<Resizable.Handle />
-		<Resizable.Pane defaultSize={65}>
-			<div class="flex h-96 items-center justify-center p-6">
-				<span class="font-semibold">Content</span>
-			</div>
-		</Resizable.Pane>
-	</Resizable.PaneGroup>
+	</Resizable.Pane>
+	<Resizable.Handle />
+	<Resizable.Pane defaultSize={65}>
+		<div class="px-4">
+			<ExpMap bind:experiment bind:selectedObject/>
+		</div>
+	</Resizable.Pane>
+</Resizable.PaneGroup>

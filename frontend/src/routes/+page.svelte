@@ -55,7 +55,7 @@
 		{#if showJSON}
 			<div class="mt-8 w-1/2">
 				<Textarea bind:value={textAreaContents} class="h-60" placeholder="Paste experiment JSON" />
-				<div class="flex justify-end">
+				<div class="flex justify-end mt-4">
 					<Button onclick={jsonOK} class="ml-auto">OK</Button>
 				</div>
 			</div>

@@ -10,8 +10,8 @@ type Experiment struct {
 
 func NewExperiment() *Experiment {
 	return &Experiment{
-		Name:          "New Experiment",
-		Notes:         "notes Go here",
+		Name: "New Experiment",
+		// Notes:         "",  Start with empty notes
 		VoterGens:     []VoterGen{},
 		CandidateGens: []CandidateGen{},
 		Frames:        []Frame{},

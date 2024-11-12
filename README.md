@@ -9,3 +9,4 @@ A playground for voting theory enthusiasts
 Wails
 Sveltekit w/ Svelte 5
 Shadcn-Svelte
+d3

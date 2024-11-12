@@ -25,6 +25,7 @@ export namespace models {
 	    radius: number;
 	    distribution: string;
 	    power: number;
+	    color: string;
 	
 	    static createFrom(source: any = {}) {
 	        return new CandidateGen(source);
@@ -38,6 +39,7 @@ export namespace models {
 	        this.radius = source["radius"];
 	        this.distribution = source["distribution"];
 	        this.power = source["power"];
+	        this.color = source["color"];
 	    }
 	}
 	export class Voter {
@@ -86,6 +88,12 @@ export namespace models {
 	}
 	export class VoterGen {
 	    name: string;
+	    x: number;
+	    y: number;
+	    radius: number;
+	    distribution: string;
+	    strategic: number;
+	    color: string;
 	
 	    static createFrom(source: any = {}) {
 	        return new VoterGen(source);
@@ -94,6 +102,12 @@ export namespace models {
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
 	        this.name = source["name"];
+	        this.x = source["x"];
+	        this.y = source["y"];
+	        this.radius = source["radius"];
+	        this.distribution = source["distribution"];
+	        this.strategic = source["strategic"];
+	        this.color = source["color"];
 	    }
 	}
 	export class Experiment {

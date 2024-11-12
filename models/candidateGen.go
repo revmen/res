@@ -13,6 +13,7 @@ type CandidateGen struct {
 	Radius       float64 `json:"radius"`
 	Distribution string  `json:"distribution"` // "uniform" or "normal"
 	Power        float64 `json:"power"`
+	Color        string  `json:"color"`
 }
 
 // Method to generate a Candidate with uniform distribution
